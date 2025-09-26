@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="tj">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шакли бақайдгирии донишҷӯён дар хобгоҳ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Ensures padding doesn't affect the width */
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Шакли бақайдгирии донишҷӯён</h2>
+    <form action="/submit-form" method="post">
+        <div class="form-group">
+            <label for="fullname">Ному насаб:</label>
+            <input type="text" id="fullname" name="fullname" required>
+        </div>
+		<style>
+    .form-row {
+      display: flex;
+      align-items: center;
+      gap: 20px; /* расстояние между полями */
+      margin-bottom: 15px;
+    }
+
+    .form-row label {
+      margin-right: 5px;
+      white-space: nowrap;
+    }
+  </style>
+        <form>
+    <div class="form-row">
+
+      <label for="dob">Соли таваллуд:</label>
+      <input type="date" id="dob" name="dob">
+
+      <label>Ҷинс:</label>
+      <input type="radio" id="male" name="gender" value="male">
+      <label for="male">мард</label>
+
+      <input type="radio" id="female" name="gender" value="female">
+      <label for="female">зан</label>
+    </div>
+        <div class="form-group">
+            <label for="studentID">Рақами донишҷӯӣ:</label>
+            <input type="text" id="studentID" name="studentID" required>
+        </div>
+        <div>
+		<label for="faculty"> Факултет </label>
+		<select id="faculty" name="faculty" required>
+		 <option value="">Факултетро интихоб кунед</option>
+		<option value="1">Корҳои кӯҳӣ </option>
+		<option value="2"> Металлургия ва зеҳни сунъӣ </option>
+		<option value="3"> Электромеханика </option>
+		</select>
+        </div>
+		<div>
+		<label for="speciality"> Ихтисос </label>
+		<select id="speciality" name="speciality" required>
+		 <option value="">Ихтисосро интихоб кунед</option>
+		<option value="1">510101 </option>
+		<option value="2"> 510201 </option>
+		<option value="4"> 510201-02 </option>
+		<option value="5"> 510201-03 </option>
+		<option value="6"> 510201-03 </option>
+		<option value="7"> 510201-04 </option>
+		<option value="8"> 510202 </option>
+		<option value="9"> 510101-03 </option>
+		<option value="10"> 700201-06 </option>
+		<option value="11"> 520201 </option>
+		<option value="12"> 440101 </option>
+		<option value="13"> 370107 </option>
+		<option value="14"> 420101-04 </option>
+		<option value="15"> 250108 </option>
+		<option value="16"> 270101-09 </option>
+		<option value="17"> 270101-10 </option>
+		<option value="18"> 360101 </option>
+		<option value="19"> 361001 </option>
+		<option value="20"> 400301</option>
+		<option value="21"> 430103-01 </option>
+		<option value="22"> 530104 </option>
+		<option value="23"> 36040201 </option>
+		</select>
+        </div>
+        <div class="form-group">
+            <label for="course">Курс:</label>
+            <select id="course" name="course" required>
+                <option value="">Курсро интихоб кунед</option>
+                <option value="1">Курси 1</option>
+                <option value="2">Курси 2</option>
+                <option value="3">Курси 3</option>
+                <option value="4">Курси 4</option>
+                <option value="5">Курси 5</option>
+            </select>
+        </div>
+		   <div>
+		<label for="numberfloor"> Бино </label>
+		<select id="numberfloor" name="numberfloor" required>
+		<option value="">Ошёнаро интихоб кунед</option>
+		<option value="1">Ошёнаи 1 </option>
+		<option value="2"> Ошёнаи 2 </option>
+		<option value="3"> Ошёнаи 3 </option>
+		<option value="4"> Ошёнаи 4 </option>
+		</select>
+        </div>
+		  <div>
+            <label for="numberflat">Рақами ҳуҷра:</label>
+            <input type="text" id="text" name="text" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Рақами телефон:</label>
+            <input type="tel" id="phone" name="phone" required>
+        </div>
+  
+        <div class="form-group">
+           <form action="send" method="post">
+	<label for="email">Почтаи электронӣ:</label>
+	<input type="email" id="email" name="email" placeholder="example@mail.com" required>
+        </div>
+
+        <div class="form-group">
+            <label for="address">Суроғаи исқоматӣ:</label>
+            <input type="text" id="address" name="address" required>
+        </div>
+        <div>
+			<legend> Созишнома </legend>
+			<input type="checkbox">
+			<label> Ман бо шартнома шинос шудам. </label>
+			<input type="checkbox">
+			<label> Ман рози ҳастам бо созишнома </label>
+			<br>
+			<button type="submit">Бақайдгирӣ</button> 
+			</div>
+	</form>
+</div>
+
+</body>
+</html>
