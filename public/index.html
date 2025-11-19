@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="tj">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hostel Admin</title>
+  <link rel="stylesheet" href="styles.css">
+      <!-- Шрифт -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app" role="application">
+    <aside class="sidebar" aria-label="Главная навигация">
+      <div class="brand">Hostel Admin</div>
+      <nav class="nav" role="navigation" aria-label="Меню" id="nav">
+        
+      </nav>
+      <div class="sidebar-footer">Пользователь: <strong>Админ</strong></div>
+    </aside>
+
+    <main class="main">
+      <div class="header">
+        <h2 id="page-title">Загрузка...</h2>
+        <div class="actions">                   
+          <button onclick="location.href='registration.html'">Добавить комендант</button>
+        </div>
+      </div>
+
+      <section id="main-content" class="content" tabindex="0" aria-live="polite">
+        <div class="placeholder" id="placeholder">
+          <div class="loader" aria-hidden="true"></div>
+          <div>Выберите таблицу в левой колонке, чтобы увидеть данные.</div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="menues.js" type="text/javascript"> </script>  
+</body>
+</html>
+
+
