@@ -1,0 +1,113 @@
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    background: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.form-container {
+    background: rgba(255,255,255,0.95);
+    width: 380px;
+    padding: 25px 30px;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    animation: popup 0.3s ease;
+}
+
+@keyframes popup {
+    from { opacity: 0; transform: scale(0.85); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #222;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
+    font-size: 14px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"] {
+    width: 85%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s;
+}
+
+input:focus {
+    border-color: #3a6ff7;
+    box-shadow: 0 0 0 3px rgba(58,111,247,0.2);
+}
+
+/* Радиокнопки в углу с аккуратным стилем */
+.gender-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 5px;
+}
+
+.gender-group input[type="radio"] {
+    accent-color: #3a6ff7; /* Цвет кружка при выборе */
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.gender-group label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+}
+
+button {
+    width: 50%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+button.save-btn {
+    background: #3a6ff7;
+    color: white;
+}
+
+button.save-btn:hover {
+    background: #1e4f82;
+    color: green;
+}
+

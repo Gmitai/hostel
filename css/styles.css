@@ -27,3 +27,25 @@ html,body{height:100%;margin:0;font-family:Inter, Roboto, system-ui, -apple-syst
 @media (max-width:720px){.sidebar{width:72px;padding:12px}.nav button{font-size:12px;padding:8px}
  .brand{display:none}}
 
+dialog {
+    width: 20%;
+    height: 64%;
+    padding: 0;
+    border: none;        /* убираем рамку диалога */
+    border-radius: 0;    /* без скруглений */
+    overflow: hidden;    /* скрываем лишнее */
+}
+
+/* Стили для iframe */
+dialog iframe {
+    width: 100%;
+    height: 100%;
+    border: none;        /* убираем рамку iframe */
+    display: block;      /* убираем лишние отступы */
+}
+
+/* Полупрозрачный фон для примера */
+body {
+    background: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
