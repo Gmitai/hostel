@@ -13,11 +13,9 @@ let article_form_layer = document.querySelector(forms[0]);
 function showForm(fId) {
     if (fId >= 0) {
         article_form_layer = document.querySelector(forms[fId]);
-        console.log(article_form_layer);
         if(article_form_layer){
             article_form_layer.style.display = "block";
             frmId = fId;
-            console.log(frmId);
         }
     }
 }

@@ -9,8 +9,8 @@ app.use(express.static(__dirname + '/css'))
 app.use(express.json());
 
 const connection = mysql.createConnection({
-    host: '192.168.31.122',
-    user: 'admin',
+    host: 'localhost',
+    user: 'root',
     password: 'root',
     database: 'hostel',
     port: 3306
@@ -43,13 +43,22 @@ app.get('/cities', (req, res) => {
         selected_menuId = 2;
         res.send([result, selected_menuId]);
     })
-})
+});
 app.get('/faculties', (req, res) => {
-    connection.execute("SELECT id, facultyName as 'Факултет' FROM faculties", (err, result) => {
+    connection.execute("SELECT id, facultyName as name FROM faculties ORDER BY facultyName", (err, result) => {
         if (err) return console.log(err);
         selected_menuId = 3;
         res.send([result, selected_menuId]);
 
+    });
+});
+app.get('/grades', (req, res) => {
+    const specId = parseInt(req.query.specId);
+    connection.execute("SELECT DISTINCT course FROM `groups` WHERE year=2025 AND specialtyId=? ORDER BY course", [specId], (err, result) => {
+        if (err) return console.log(err);
+        selected_menuId = 6;
+
+        res.send([result.map(r=>'Курси '+r), selected_menuId]);
     })
 })
 app.get('/department', (req, res) => {
@@ -64,7 +73,8 @@ app.get('/specialtyByFacId', (req, res) => {
     const facId = req.query.id;
     connection.execute(`Select s.id as id, CONCAT(s.code, '-', s.name) as name from specialties s JOIN departments d JOIN faculties f ON s.departmentId=d.id AND d.facultyId=f.id where f.id='${facId}' ORDER BY name`, (err, result) => {
         if (err) return console.log(err);
-        res.send(result);
+        selected_menuId = 6;
+        res.send([result, selected_menuId]);
     })
 });
 
@@ -98,17 +108,10 @@ app.get('/users', (req, res) => {
         res.send([result, selected_menuId]);
     })
 });
+
 app.post('/registerStudent', (req, res) => {
 
 })
-
-// const openLink = document.getElementById('openFormLink');
-// const closeBtn = document.getElementById('closeFormBtn');
-// const modal = document.getElementById('modalForm');
-
-// closeBtn.onclick = () => modal.style.display = 'none';
-
-// modal.onclick = (e) => { if(e.target === modal) modal.style.display = 'none'; };
 
 
 const PORT = process.env.PORT || 3000;
