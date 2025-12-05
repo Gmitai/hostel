@@ -1,51 +1,246 @@
-:root{ --bg:#f6f7fb; --sidebar:#0a0a10; --accent:#2563eb; --muted:#f9f9f9; }
-html,body{height:100%;margin:0;font-family:Inter, Roboto, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial;color:#070b13;background:var(--bg)}
-.app{display:flex;height:100vh}
-.sidebar{width:260px;background:linear-gradient(180deg,var(--sidebar),#071024);color:#faf8f8;padding:20px;box-sizing:border-box;display:flex;flex-direction:column;gap:18px}
-.brand{font-weight:700;font-size:18px}
-.nav{display:flex;flex-direction:column;gap:8px}
-.nav button{background:transparent;border:none;color:inherit;padding:10px 12px;text-align:left;border-radius:10px;cursor:pointer;font-size:15px}
-.nav button:hover{background:rgba(178, 27, 95, 0.06)}
-.nav button.active{background:rgba(255,255,255,0.12)}
-.sidebar-footer{margin-top:auto;font-size:13px;color:rgba(250, 246, 246, 0.6)}
-.main{flex:1;padding:28px;box-sizing:border-box;display:flex;flex-direction:column;gap:16px}
-.header{display:flex;justify-content:space-between;align-items:center;}
-.button{padding: 20px 80; border: solid 5px; border-radius: 50px; font-family:Franklin Gothic; background-color: #51ff00;}
-
-
-.content{flex:1;background:#fff;border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(9,30,66,0.08);overflow:auto}
-.placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--muted)}
-.loader{width:38px;height:38px;border-radius:50%;border:4px solid rgba(0,0,0,0.08);border-top-color:var(--accent);animation:spin 1s linear infinite;margin-bottom:12px}
-@keyframes spin{to{transform:rotate(360deg)}}
-.actions{display:flex;gap:10px}
-.error{padding:16px;color:#b91c1c}
-.data-table{width:100%;border-collapse:collapse}
-.data-table th,.data-table td{border-bottom:1px solid #eef2f7;padding:10px;text-align:left;font-size:14px}
-.data-table thead th{background:#fbfdff}
-
-
-@media (max-width:720px){.sidebar{width:72px;padding:12px}.nav button{font-size:12px;padding:8px}
- .brand{display:none}}
-
-dialog {
-    width: 20%;
-    height: 64%;
-    padding: 0;
-    border: none;        /* убираем рамку диалога */
-    border-radius: 0;    /* без скруглений */
-    overflow: hidden;    /* скрываем лишнее */
+:root
+{
+    --bg:#e5ffe9;
+    --sidebar: #01060e;
+    --accent:#2563eb;
+    --muted:#8ab5f1;
 }
 
-/* Стили для iframe */
-dialog iframe {
-    width: 100%;
-    height: 100%;
-    border: none;        /* убираем рамку iframe */
-    display: block;      /* убираем лишние отступы */
+html,body
+{
+    height:100%;
+    margin:0;
+    font-family:Inter, Roboto, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial;
+    color:#070b13;
+    background:var(--bg)
 }
 
-/* Полупрозрачный фон для примера */
-body {
-    background: #f0f0f0;
-    font-family: Arial, sans-serif;
+.app
+{
+    display:flex;
+    height:100vh
 }
+
+.sidebar
+{
+    width:260px;
+    background:linear-gradient(180deg,var(--sidebar),#072414);
+    color:#fff;
+    padding:20px;
+    box-sizing:border-box;
+    display:flex;
+    flex-direction:column;
+    gap:18px
+}
+
+.brand
+{
+    font-weight:700;
+    font-size:18px
+}
+
+.nav
+{
+    display:flex;
+    flex-direction:column;
+    gap:8px
+}
+
+.nav button
+{
+    background:transparent;
+    border:none;
+    color:inherit;
+    padding:10px 12px;
+    text-align:left;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:15px
+}
+
+.nav button:hover
+{
+    background:rgba(0, 255, 179, 0.164)
+}
+
+.nav button.active
+{
+    background:rgba(0, 0, 0, 0.329)
+}
+
+.sidebar-footer
+{
+    margin-top:auto;
+    font-size:13px;
+    color:rgba(255,255,255,0.6)
+}
+
+.main
+{
+    flex:1;
+    padding:28px;
+    box-sizing:border-box;
+    display:flex;
+    flex-direction:column;
+    gap:16px
+}
+
+.header
+{
+    display:flex;
+    justify-content:space-between;
+    align-items:center
+}
+
+.content
+{
+    flex:1;background:#fff;
+    border-radius:12px;
+    padding:18px;
+    box-shadow:0 6px 18px rgba(9,30,66,0.08);
+    overflow:auto
+}
+/*#main-content
+{
+    background-color: black;
+}*/
+
+.placeholder
+{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    height:100%;
+    color:var(--muted)
+}
+
+.loader
+{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    border:4px solid rgba(0,0,0,0.08);
+    border-top-color:var(--accent);
+    animation:spin 1s linear infinite;
+    margin-bottom:12px
+}
+
+@keyframes spin
+{to
+{
+    transform:rotate(360deg)
+}
+}
+
+.actions
+{
+    display:flex;
+    gap:10px
+}
+
+.error
+{
+    padding:16px;
+    color:#b91c1c
+}
+
+.data-table
+{
+    width:100%;
+    border-collapse:collapse
+}
+
+.data-table th,.data-table td
+{
+    border:1px solid #eef2f7;
+    padding:10px;
+    text-align:left;
+    font-size:14px
+}
+
+.data-table thead th
+{
+    background:#fbfdff
+}
+
+@media (max-width:720px)
+{
+    .sidebar
+    {
+        width:72px;
+        padding:12px
+    }
+
+    .nav button
+    {
+        font-size:12px;
+        padding:8px
+    }
+
+    .brand
+    {
+        display:none
+    }
+}
+
+#add_content
+{
+    margin-right: 10px;
+}
+
+#add:hover
+{
+    background-color: rgb(1, 212, 18);
+    transform: scale(1.05);
+    box-shadow:0 2px 12px rgb(76, 255, 48);
+}
+
+#add
+{
+    border-style: none;
+    border-radius: 20px;
+    background-color: rgb(2, 83, 9);
+    font-family: arial;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    width: 150px;
+    height: 33px;
+
+}
+
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: rgba(255,255,255,0.05);
+    border-radius:10px;
+    padding:15px;
+    text-align:center;
+    transition:0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #0ff;
+}
+
+.card img {
+    width:100%;
+    height:150px;
+    object-fit:cover;
+    border-radius:8px;
+    margin-bottom:10px;
+}
+
+.card h3 { color:#0ff; margin-bottom:5px; }
+.card p { opacity:0.8; margin-bottom:10px; }
+.btn { background:#0ff; color:#000; border:none; padding:8px 15px; border-radius:6px; cursor:pointer; font-weight:bold; }
+.btn:hover { background:#00bcd4; transform:scale(1.05);}
+
+

@@ -38,7 +38,7 @@
     }
     input[type="text"],
     input[type="email"],
-    input[type="tel"],
+    input[type="number"]
     select {
         width: 100%;
         padding: 10px;
@@ -67,22 +67,15 @@
     <h2>Иловакунии бино</h2>
     <form action="/addBuilding" method="post">
         <div class="form-group">
-            <label for="fullname">Ному насаб:</label>
-            <input type="text" id="fullname" name="title" required>
+            <label for="fullname">Номи бино:</label>
+            <input type="text" id="fullname" name="title" required>          
 
-            <style>
-                .form-row {
-                    display: flex;
-                    align-items: center;
-                    gap: 20px; /* расстояние между полями */
-                    margin-bottom: 15px;
-                }
-
-                .form-row label {
-                    margin-right: 5px;
-                    white-space: nowrap;
-                }
-            </style>
+            
+        </div>
+        <div class="form-group">
+            <label for="count">Миқдори ошёна</label>
+            <input type="number" id="count" name="fcount" required>
+        </div>    
             <div class="form-control">
                 <button type="submit">Бақайдгирӣ</button>
             </div>
