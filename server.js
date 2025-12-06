@@ -45,7 +45,7 @@ app.get('/cities', (req, res) => {
     })
 });
 app.get('/faculties', (req, res) => {
-    connection.execute("SELECT id, facultyName as name FROM faculties ORDER BY facultyName", (err, result) => {
+    connection.execute("SELECT id, facultyName as 'Факултет' FROM faculties", (err, result) => {
         if (err) return console.log(err);
         selected_menuId = 3;
         res.send([result, selected_menuId]);
@@ -54,11 +54,10 @@ app.get('/faculties', (req, res) => {
 });
 app.get('/grades', (req, res) => {
     const specId = parseInt(req.query.specId);
-    connection.execute("SELECT DISTINCT course FROM `groups` WHERE year=2025 AND specialtyId=? ORDER BY course", [specId], (err, result) => {
+    connection.execute("SELECT DISTINCT course as id, CONCAT('Бахши ', course) as name  FROM `groups` WHERE year=2025 AND status=1 AND specialtyId=? ORDER BY course", [specId], (err, result) => {
         if (err) return console.log(err);
         selected_menuId = 6;
-
-        res.send([result.map(r=>'Курси '+r), selected_menuId]);
+        res.send([result, selected_menuId]);
     })
 })
 app.get('/department', (req, res) => {
@@ -66,7 +65,7 @@ app.get('/department', (req, res) => {
         if (err) return console.log(err);
         selected_menuId = 4;
         res.send([result, selected_menuId]);
-    })
+    });
 });
 
 app.get('/specialtyByFacId', (req, res) => {
@@ -81,9 +80,10 @@ app.get('/specialtyByFacId', (req, res) => {
 app.get('/studentsBySpecGrade', (req, res) => {
     const specId=req.query.specId;
     const grade=req.query.gradeId;
-    connection.execute("Select s.id id, CONCAT(s.lastName,' ',s.firstName,' ') fullName from students s JOIN `groups` g ON s.groupId=g.id where s.specId=? and g.course=? and g.year=2025 and s.status=2 AND s.liveInHostel=0", [specId, grade], (err, result) => {
+    connection.execute("Select s.id as id, CONCAT(s.lastName,' ',s.firstName,' ') as name from students s JOIN `groups` g ON s.groupId=g.id where s.specId=? and g.course=? and g.year=2025 and s.status=2 AND s.liveInHostel=0", [specId, grade], (err, result) => {
         if (err) return console.log(err);
-        res.send(result);
+        selected_menuId = 6;
+        res.send([result, selected_menuId]);
     })
 })
 
