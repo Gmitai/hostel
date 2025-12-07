@@ -2,7 +2,9 @@ const faculty = document.getElementById("faculty");
 const specialty = document.getElementById("specialty");
 const grade = document.getElementById("grade");
 const student = document.getElementById("student");
-
+const building = document.getElementById("building");
+const numFloor=document.getElementById("numFloor");
+const roomNumber = document.getElementById("roomNumber");
 let faculties = []
 let specialties = [];
 
@@ -12,6 +14,7 @@ async function startFill() {
     faculties = await getData("/faculties");
     await fillSelect(faculty, faculties);
     faculty.dispatchEvent(new Event("change"));
+    getData(`/buildings`).then((bd) => fillSelect(building, bd)).then(()=>building.dispatchEvent(new Event("change")));
 }
 
 
@@ -60,3 +63,24 @@ async function getData(url) {
     const response = await fetch(url).then(res => res.json());
     return response[0];
 }
+
+building.addEventListener("change", (e) => {
+    const selBuilding = parseInt(e.target.value);
+    if (!selBuilding) {
+        fillSelect(building, []);
+        return;
+    }
+    getData(`/buildings/${selBuilding}`).then((fl) => fillSelect(numFloor, fl));
+});
+
+numFloor.addEventListener("change", (e) => {
+    const selFloor = parseInt(e.target.value);
+    const selBuilding = document.getElementById("building").value;
+    if (!selBuilding) {
+        fillSelect(roomNumber, []);
+        return;
+    }
+    console.log(selBuilding+'-'+selFloor);
+    getData(`/roomsByBuildFloorId?builId=${selBuilding}&floorId=${selFloor}`).then((rm) => fillSelect(roomNumber, rm));
+
+})

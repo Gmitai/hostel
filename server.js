@@ -23,14 +23,40 @@ app.get('/buildings', (req, res) => {
     selected_menuId = 0;
     connection.execute("Select id, title as 'Номи хобгоҳ', floorCount as 'Миқдори ошёна' from buildings where status=1", (err, result) => {
         if (err) return console.log(err);
+        selected_menuId = 0;
+        res.send([result, selected_menuId]);
+    })
+});
+
+app.get('/buildings/:id', (req, res) => {
+    selected_menuId = 0;
+    const id = parseInt(req.params.id);
+    connection.execute(`SELECT floorCount
+                        FROM buildings
+                        WHERE id = ${id}`, (err, result) => {
+        if (err) return console.log(err);
+        const floors = [];
+        for (let i = 1; i <= result[0]['floorCount']; i++) {
+            floors.push({'id': i, 'name': `Ошёнаи ${i}`});
+        }
+        res.send([floors, selected_menuId]);
+    })
+});
+
+app.get('/roomsByBuildFloorId', (req, res) => {
+    selected_menuId = 0;
+    const buildId = parseInt(req.query.buildId);
+    const floorId = parseInt(req.query.floorId);
+    connection.execute("Select r.id, r.name, (r.placeCount-COUNT(r.id)) AS plCount from rooms r join buildings b on r.buildingId=b.id LEFT JOIN students s ON s.roomId=r.id WHERE s.liveInHostel>0 AND buildingId=? AND numFloor=? GROUP BY r.id, r.name HAVING plCount>0", [buildId, floorId], (err, result) => {
+        if (err) return console.log(err);
+        selected_menuId = 5;
+        console.log(result);
         res.send([result, selected_menuId]);
     })
 });
 
 app.get('/employees', (req, res) => {
-    connection.execute(
-        "SELECT e.id, e.lastName,e.firstName, e.gender, e.birthDate, e.email, e.image, e.mobilePhone FROM employees e WHERE status = 1",
-        (err, result) => {
+    connection.execute("SELECT e.id, e.lastName,e.firstName, e.gender, e.birthDate, e.email, e.image, e.mobilePhone FROM employees e WHERE status = 1",(err, result) => {
             if (err) return console.log(err);
             res.send([result, selected_menuId]);
         }
@@ -61,7 +87,7 @@ app.get('/grades', (req, res) => {
     })
 })
 app.get('/department', (req, res) => {
-    connection.execute("Select id, name as 'Кафедраҳо' from department", (err, result) => {
+    connection.execute("Select id, name as 'Кафедраҳо' from departments", (err, result) => {
         if (err) return console.log(err);
         selected_menuId = 4;
         res.send([result, selected_menuId]);
@@ -70,7 +96,12 @@ app.get('/department', (req, res) => {
 
 app.get('/specialtyByFacId', (req, res) => {
     const facId = req.query.id;
-    connection.execute(`Select s.id as id, CONCAT(s.code, '-', s.name) as name from specialties s JOIN departments d JOIN faculties f ON s.departmentId=d.id AND d.facultyId=f.id where f.id='${facId}' ORDER BY name`, (err, result) => {
+    connection.execute(`Select s.id as id, CONCAT(s.code, '-', s.name) as name
+                        from specialties s
+                                 JOIN departments d
+                                 JOIN faculties f ON s.departmentId = d.id AND d.facultyId = f.id
+                        where f.id = '${facId}'
+                        ORDER BY name`, (err, result) => {
         if (err) return console.log(err);
         selected_menuId = 6;
         res.send([result, selected_menuId]);
@@ -78,8 +109,8 @@ app.get('/specialtyByFacId', (req, res) => {
 });
 
 app.get('/studentsBySpecGrade', (req, res) => {
-    const specId=req.query.specId;
-    const grade=req.query.gradeId;
+    const specId = req.query.specId;
+    const grade = req.query.gradeId;
     connection.execute("Select s.id as id, CONCAT(s.lastName,' ',s.firstName,' ') as name from students s JOIN `groups` g ON s.groupId=g.id where s.specId=? and g.course=? and g.year=2025 and s.status=2 AND s.liveInHostel=0", [specId, grade], (err, result) => {
         if (err) return console.log(err);
         selected_menuId = 6;
@@ -88,9 +119,9 @@ app.get('/studentsBySpecGrade', (req, res) => {
 })
 
 app.get('/rooms', (req, res) => {
-    connection.execute("Select r.id,r.name as 'Рақами Ҳуҷра', b.title as 'Хобгоҳ', r.floor as 'Ошёна', r.placeCount as 'Шумораи истиқоматкунандагон' from rooms r left join buildings b on r.buildingId=b.id", (err, result) => {
+    connection.execute("Select r.id, b.title as 'Хобгоҳ', r.name as '№-ҳуҷра', r.numFloor as 'Ошёна', r.placeCount as 'Миқдори ҷой', (r.placeCount-COUNT(r.id)) AS Ҷойи_холӣ  from rooms r join buildings b on r.buildingId=b.id LEFT JOIN students s ON s.roomId=r.id GROUP BY r.id, r.name, b.title, r.numFloor, r.placeCount ORDER BY b.title, r.numFloor, r.name", (err, result) => {
         if (err) return console.log(err);
-        selected_menuId = 5;
+        selected_menuId = 6;
         res.send([result, selected_menuId]);
     })
 });
