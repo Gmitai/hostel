@@ -5,58 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Шакли бақайдгирии донишҷӯён дар хобгоҳ</title>
     <link rel="stylesheet" href="Forms_Style.css">
-
 </head>
 <body>
-
+<script src="getLSItem.js" type="text/javascript"></script>
 <div class="form-container">
     <h2>Шакли бақайдгирии донишҷӯён</h2>
+
     <form action="/registerStudent" method="post">
-        <form>
-            <div class="form-group">
-                <label for="faculty"> Факултет </label>
-                <select id="faculty" name="faculty" required>
 
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="specialty"> Ихтисос </label>
-                <select id="specialty" name="specialty" required>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="grade">Бахш:</label>
-                <select id="grade" name="grade" required>
+        <div class="form-group">
+            <label for="faculty">Факултет</label>
+            <select id="faculty" name="faculty" required></select>
+        </div>
 
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="student">Донишҷӯ:</label>
-                <select id="student" name="student" required>
+        <div class="form-group">
+            <label for="specialty">Ихтисос</label>
+            <select id="specialty" name="specialty" required></select>
+        </div>
 
-                </select>
-            </div>
-            <div>
-                <label for="building">Бино</label>
-                <select id="building" name="building" required>
+        <div class="form-group">
+            <label for="grade">Бахш</label>
+            <select id="grade" name="grade" required></select>
+        </div>
 
-                </select>
-            </div>
-            <div>
-                <label for="numFloor">Ошёна</label>
-                <select id="numFloor" name="numfloor" required>
+        <div class="form-group">
+            <label for="student">Донишҷӯ</label>
+            <select id="student" name="student" required></select>
+        </div>
 
-                </select>
-            </div>
-            <div>
-                <label for="roomNumber">Ҳуҷра</label>
-                <select id="roomNumber" name="roomNumber" required>
-                </select>
-            </div>
+        <div class="form-group">
+            <label for="building">Бино</label>
+            <select id="building" name="building" required></select>
+        </div>
 
-        </form>
+        <div class="form-group">
+            <label for="numFloor">Ошёна</label>
+            <select id="numFloor" name="numfloor" required></select>
+        </div>
+
+        <div class="form-group">
+            <label for="roomNumber">Ҳуҷра</label>
+            <select id="roomNumber" name="roomNumber" required></select>
+        </div>
+
+        <div class="form-group">
+        <div class="button-group">            
+            <button type="button" class="btn-back" onclick="window.parent.closeIframe(getFrmId())">⬅ Баромад</button>
+			<button type="submit" class="btn-add">➕ Сабт</button>
+        </div>
+        </div>
     </form>
 </div>
+
 <script src="regStudentLoadFormData.js" type="text/javascript"></script>
 </body>
 </html>

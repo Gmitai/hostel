@@ -70,17 +70,16 @@ building.addEventListener("change", (e) => {
         fillSelect(building, []);
         return;
     }
-    getData(`/buildings/${selBuilding}`).then((fl) => fillSelect(numFloor, fl));
+    getData(`/buildings/${selBuilding}`).then((fl) => fillSelect(numFloor, fl)).then(()=>numFloor.dispatchEvent(new CustomEvent('change')));
 });
 
-numFloor.addEventListener("change", (e) => {
-    const selFloor = parseInt(e.target.value);
-    const selBuilding = document.getElementById("building").value;
-    if (!selBuilding) {
+numFloor.addEventListener("change", async (e) => {
+    const selFloor = parseInt(numFloor.value);
+    const selBuilding = parseInt(building.value);
+
+    if (!selBuilding || !selFloor) {
         fillSelect(roomNumber, []);
         return;
     }
-    console.log(selBuilding+'-'+selFloor);
-    getData(`/roomsByBuildFloorId?builId=${selBuilding}&floorId=${selFloor}`).then((rm) => fillSelect(roomNumber, rm));
-
-})
+   getData(`/roomsByBuildFloorId?buildId=${selBuilding}&floorId=${selFloor}`).then((rm)=>fillSelect(roomNumber, rm));
+});

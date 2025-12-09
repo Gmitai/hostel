@@ -47,16 +47,28 @@ app.get('/roomsByBuildFloorId', (req, res) => {
     selected_menuId = 0;
     const buildId = parseInt(req.query.buildId);
     const floorId = parseInt(req.query.floorId);
-    connection.execute("Select r.id, r.name, (r.placeCount-COUNT(r.id)) AS plCount from rooms r join buildings b on r.buildingId=b.id LEFT JOIN students s ON s.roomId=r.id WHERE s.liveInHostel>0 AND buildingId=? AND numFloor=? GROUP BY r.id, r.name HAVING plCount>0", [buildId, floorId], (err, result) => {
+    const params = [buildId, floorId, buildId, floorId];
+    const sql = `SELECT a.id, a.name
+                 FROM (SELECT r.id, r.name, r.placeCount AS plCount
+                       FROM rooms r
+                       WHERE r.buildingId = ? AND r.numFloor = ?) a
+                          LEFT JOIN (SELECT r.id AS id, COUNT(s.id) AS plCount
+                                     FROM rooms r
+                                              JOIN students s ON s.roomId = r.id
+                                     WHERE s.liveInHostel > 0
+                                       AND r.buildingId = ?
+                                       AND r.numFloor = ?
+                                     GROUP BY r.id, r.name) b ON a.id = b.id
+                 WHERE a.plCount - IFNULL(b.plCount, 0) > 0;`;
+    connection.execute(sql, params, (err, result) => {
         if (err) return console.log(err);
         selected_menuId = 5;
-        console.log(result);
         res.send([result, selected_menuId]);
     })
 });
 
 app.get('/employees', (req, res) => {
-    connection.execute("SELECT e.id, e.lastName,e.firstName, e.gender, e.birthDate, e.email, e.image, e.mobilePhone FROM employees e WHERE status = 1",(err, result) => {
+    connection.execute("SELECT e.id, e.lastName,e.firstName, e.gender, e.birthDate, e.email, e.image, e.mobilePhone FROM employees e WHERE status = 1", (err, result) => {
             if (err) return console.log(err);
             res.send([result, selected_menuId]);
         }
@@ -119,14 +131,14 @@ app.get('/studentsBySpecGrade', (req, res) => {
 })
 
 app.get('/rooms', (req, res) => {
-    connection.execute("Select r.id, b.title as 'Хобгоҳ', r.name as '№-ҳуҷра', r.numFloor as 'Ошёна', r.placeCount as 'Миқдори ҷой', (r.placeCount-COUNT(r.id)) AS Ҷойи_холӣ  from rooms r join buildings b on r.buildingId=b.id LEFT JOIN students s ON s.roomId=r.id GROUP BY r.id, r.name, b.title, r.numFloor, r.placeCount ORDER BY b.title, r.numFloor, r.name", (err, result) => {
+    connection.execute("Select r.id, b.title as 'Хобгоҳ', r.name as '№-ҳуҷра', r.numFloor as 'Ошёна', r.placeCount as 'Миқдори ҷой', (r.placeCount-COUNT(s.id)) AS Ҷойи_холӣ  from rooms r join buildings b on r.buildingId=b.id LEFT JOIN students s ON s.roomId=r.id GROUP BY r.id, r.name, b.title, r.numFloor, r.placeCount ORDER BY b.title, r.numFloor, r.name", (err, result) => {
         if (err) return console.log(err);
         selected_menuId = 6;
         res.send([result, selected_menuId]);
     })
 });
 app.get('/students', (req, res) => {
-    connection.execute("Select s.id, Concat(s.lastName,' ',s.firstName,' ') as 'Ному насаб',IF(s.gender = 0, 'Зан', 'Мард') AS 'Ҷинс', r.name as 'Хона', s.mobilePhone as 'Рақами мобили', s.address as 'Суроға' from students s left join  rooms r on s.roomId=r.Id  where s.liveInHostel=1", (err, result) => {
+    connection.execute("Select s.id, Concat(s.lastName,' ',s.firstName,' ') as 'Ному насаб',IF(s.gender = 0, 'Зан', 'Мард') AS 'Ҷинс', b.title AS Бино, r.numFloor AS Ошёна, r.name as 'Ҳуҷра', s.mobilePhone as 'Рақами мобили', s.address as 'Суроға' from students s left join rooms r on s.roomId=r.Id LEFT JOIN buildings b ON b.id=r.buildingId where s.liveInHostel=1", (err, result) => {
         if (err) return console.log(err);
         selected_menuId = 6;
         res.send([result, selected_menuId]);
@@ -140,9 +152,15 @@ app.get('/users', (req, res) => {
     })
 });
 
-app.post('/registerStudent', (req, res) => {
-
-})
+app.post('/registerStudent', urlencodedParser, (req, res) => {
+    console.log(req.body);
+    const studId = req.body.student;
+    const roomId = req.body.roomNumber;
+    connection.execute("UPDATE students SET roomId=?, liveInHostel=1 WHERE id=?", [roomId, studId], (err, result) => {
+        if (err) return console.log(err);
+        selected_menuId = 6;
+    });
+});
 
 
 const PORT = process.env.PORT || 3000;
