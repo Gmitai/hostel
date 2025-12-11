@@ -75,12 +75,13 @@ app.get('/employees', (req, res) => {
     )
 });
 app.get('/log_book', (req, res) => {
-    connection.execute("Select lb.id, Concat(e.lastName,' ', e.firstName,' ', e.familyName) as 'Комендант', CASE when regType=1 then 'Даромад' when regType=2 then 'Баромад' else 'Ҳодиса' END as 'Ҳодиса', DATE_FORMAT(lb.eventDate, '%d.%m.%y') as 'Санаи ҳодиса', DATE_FORMAT(lb.createdAt, '%d.%m.%y') as 'Санаи сабтшуда' from log_book lb JOIN employees e JOIN students s on lb.commendantId=e.id and lb.studentId=s.id", (err, result) => {
+    connection.execute("Select lb.id, Concat(e.lastName,' ', e.firstName,' ', e.familyName) as 'Комендант', CASE when regType=1 then 'Даромад' when regType=2 then 'Баромад' else 'Ҳодиса' END as 'Ҳодиса',lb.comment AS 'Қайд', DATE_FORMAT(lb.eventDate, '%d.%m.%Y %H:%i:%s') as 'Санаи ҳодиса', DATE_FORMAT(lb.createdAt, '%d.%m.%Y %H:%i:%s') as 'Санаи сабтшуда' from log_book lb JOIN employees e  on lb.commendantId=e.id", (err, result) => {
         if (err) return console.log(err);
         selected_menuId = 2;
         res.send([result, selected_menuId]);
     });
-})
+});
+
 
 app.get('/cities', (req, res) => {
     connection.execute("SELECT title as 'Шаҳр', if(typeOf=1, 'Давлат', 'Шаҳр') as 'Шаҳр/Давлат/Ноҳия' from cities", (err, result) => {
@@ -135,12 +136,13 @@ app.get('/studentsBySpecGrade', (req, res) => {
 })
 
 app.get('/rooms', (req, res) => {
-    connection.execute("Select r.id, b.title as 'Хобгоҳ', r.name as '№-ҳуҷра', r.numFloor as 'Ошёна', r.placeCount as 'Миқдори ҷой', (r.placeCount-COUNT(s.id)) AS Ҷойи_холӣ  from rooms r join buildings b on r.buildingId=b.id LEFT JOIN students s ON s.roomId=r.id GROUP BY r.id, r.name, b.title, r.numFloor, r.placeCount ORDER BY b.title, r.numFloor, r.name", (err, result) => {
+    connection.execute("Select r.id, b.title as 'Хобгоҳ', r.numFloor as 'Ошёна', r.name as '№-ҳуҷра', r.placeCount as 'Миқдори ҷой', (r.placeCount-COUNT(s.id)) AS Ҷойи_холӣ  from rooms r join buildings b on r.buildingId=b.id LEFT JOIN students s ON s.roomId=r.id GROUP BY r.id, r.name, b.title, r.numFloor, r.placeCount ORDER BY b.title, r.numFloor, r.name", (err, result) => {
         if (err) return console.log(err);
         selected_menuId = 3;
         res.send([result, selected_menuId]);
     })
 });
+
 app.get('/students', (req, res) => {
     connection.execute("Select s.id, Concat(s.lastName,' ',s.firstName,' ') as 'Ному насаб',IF(s.gender = 0, 'Зан', 'Мард') AS 'Ҷинс', b.title AS Бино, r.numFloor AS Ошёна, r.name as 'Ҳуҷра', s.mobilePhone as 'Рақами мобили', s.address as 'Суроға' from students s left join rooms r on s.roomId=r.Id LEFT JOIN buildings b ON b.id=r.buildingId where s.liveInHostel=1", (err, result) => {
         selected_menuId = 4;
@@ -149,10 +151,10 @@ app.get('/students', (req, res) => {
         res.send([result, selected_menuId]);
     })
 });
-app.get('/users', (req, res) => {
-    connection.execute("Select u.id, Concat(e.lastName,' ', e.firstName,' ', e.familyName) as 'Ному насаб', u.login  as 'Логин' from users u left join employees e on u.empId=e.Id", (err, result) => {
+app.get('/duty', (req, res) => {
+    connection.execute("Select d.id, b.title AS 'Номи хобгоҳ', Concat(e.lastName,' ', e.firstName,' ', e.familyName) AS 'Навбадор', d.comment AS 'Қайд', DATE_FORMAT(d.fromDate, '%d.%m.%Y %H:%i:%s') AS 'Аз санаи', DATE_FORMAT(d.toDate,'%d.%m.%Y %H:%i:%s') AS 'То санаи' FROM duty d JOIN buildings b ON d.buildingId = b.id JOIN employees e ON d.empId = e.id", (err, result) => {
         if (err) return console.log(err);
-        selected_menuId = 8;
+        selected_menuId = 5;
         res.send([result, selected_menuId]);
     })
 });
@@ -193,7 +195,29 @@ app.post('/register', urlencodedParser, (req, res) => {
         }
     });
 
-})
+});
+
+app.post('/registerLog', urlencodedParser, (req, res) => {
+    const commendantId=req.body.commendant;
+    const eventId=req.body.eventType;
+    const comment=req.body.comment;
+    const eventDate=req.body.eventDate;
+    const buildingId=req.body.building;
+    connection.execute("Insert into log_book (commendantId, buildingId, regType, comment, eventDate) VALUES (?,?,?,?,?)",[commendantId, buildingId, eventId, comment, eventDate], (err, result) => {
+        if (err) return console.log(err);
+    });
+});
+
+app.post('/dutyAddInfo', urlencodedParser, (req, res) => {
+    const commendantId=req.body.commendant;
+    const building=req.body.building;
+    const comment=req.body.comment;
+    const fromDate=req.body.fromDate;
+    const toDate=req.body.toDate;
+    connection.execute("Insert into duty (empId, buildingId, comment, fromDate, toDate) VALUES (?,?,?,?,?)",[commendantId, building, comment, fromDate, toDate], (err, result) => {
+        if (err) return console.log(err);
+    });
+});
 
 
 const PORT = process.env.PORT || 3000;

@@ -9,7 +9,9 @@ h2 {
 
 .form-group2 {
     margin-bottom: 10px;
+
 }
+
 
 label {
     display: block;
@@ -40,7 +42,11 @@ button {
 button:hover {
     background-color: #0056b3;
 }
-
+#comment {
+    width: 100%;
+    height: 120px; /* можно менять */
+    resize: vertical; /* разрешить растягивать вниз */
+}
 
 
 
@@ -105,6 +111,11 @@ button:hover {
     display: flex;
     gap: 15px;
 }
+.date-group {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+}
 
 .btn-add {
     background-color: #28a745;
@@ -137,3 +148,24 @@ button:hover {
     gap: 10px;
 }
 
+.autocomplete-list {
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    background: #fff;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    z-index: 1000;
+}
+
+.autocomplete-list li {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.autocomplete-list li:hover {
+    background-color: #f8eaea;
+}

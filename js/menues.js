@@ -10,7 +10,7 @@ const TABLES = [
     "log_book",
     "rooms",
     "students",
-    "users"
+    "duty"
 ];
 
 createNav();
@@ -41,7 +41,7 @@ function humanizeKey(key){
         log_book:'Журнал',
         rooms:'Ҳучраҳо',
         students:'Донишҷӯён',
-        users:'Истифодабарандагон'
+        duty:'Навбадор'
     };
     return map[key] || key;
 }

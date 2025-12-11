@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Бақайдгирии ҳодиса</title>
     <link rel="stylesheet" href="Forms_Style.css">
-    <script src="getLSItem.js"></script>
+    <script src="getLSItem.js" type="text/javascript"></script>
+
     <style>
         .autocomplete-list {
             border: 1px solid #ccc;
@@ -34,7 +35,7 @@
 <div class="form-container">
     <h2>Бақайдгирии ҳодиса</h2>
 
-    <form action="/registerLog" method="post" id="eventForm">
+    <form action="/dutyAddInfo" method="post" id="eventForm">
         <div class="form-group">
             <label for="building">Бино</label>
             <select id="building" name="building" required></select>
@@ -46,22 +47,15 @@
         </div>
 
         <div class="form-group">
-            <label for="eventType">Ҳодиса</label>
-            <select id="eventType" name="eventType" required>
-                <option value="1">1 - Даромад</option>
-                <option value="2">2 - Баромад</option>
-                <option value="3">3 - Ҳодиса</option>
-            </select>
-        </div>
-
-        <div class="form-group">
             <label for="comment">comment:</label>
             <textarea id="comment" name="comment" rows="6" cols="50"></textarea>
         </div>
 
-        <div class="form-group">
-            <label for="eventDate">Сана ва вақт:</label>
-            <input type="datetime-local" id="eventDate" name="eventDate">
+        <div class="date-group">
+            <label for="fromDate">Аз санаи:</label>
+            <input type="datetime-local" id="fromDate" name="fromDate" required>
+            <label for="toDate">то санаи:</label>
+            <input type="datetime-local" id="toDate" name="toDate" required>
         </div>
 
         <div class="form-group">
@@ -74,5 +68,6 @@
 </div>
 
 <script src="getLogBook.js" type="text/javascript"></script>
+<script src="sendFormData.js" type="text/javascript"></script>
 </body>
 </html>
