@@ -7,9 +7,6 @@ const titleEl = document.getElementById('page-title');
 const TABLES = [
     "buildings",
     "employees",
-    "cities",
-    "faculties",
-    "department",
     "log_book",
     "rooms",
     "students",
@@ -40,10 +37,7 @@ function createNav() {
 function humanizeKey(key){
     const map = {
         buildings:'Биноҳо',
-        cities:'Шаҳру/Ноҳияҳо',
         employees:'Кормандон',
-        faculties:"Факултетҳо",
-        department:'Кафедраҳо',
         log_book:'Журнал',
         rooms:'Ҳучраҳо',
         students:'Донишҷӯён',
@@ -69,13 +63,7 @@ function setActive(btn){
 // Загрузка данных с сервера
 async function loadForKey(key) {
     showLoading();
-
     try {
-        if(key === 'employees') {
-            // Вместо таблицы показываем карточки сотрудников
-            window.loadEmployees();
-            return;
-        }
 
         // Для остальных таблиц рендерим как таблицу
         const res = await fetch(`/${encodeURIComponent(key)}`);
@@ -153,12 +141,18 @@ function renderTable(key, rows) {
 
             tr.appendChild(td);
         });
+        const img = document.createElement('img');
+        img.src="Redaktirovat.png";
+        img.alt="Редактировать"
+        img.style.width = '25px';
+        img.style.height = '25px';
 
         // Кнопка редактирования
         const tdNew = document.createElement('td');
         const button = document.createElement('button');
-        button.textContent = 'Tahrir';  // Язык кнопки на таджикском, но если нужен перевод на русский — заменить
-        button.addEventListener('click', () => { showForm(0) });
+        button.appendChild(img);
+        button.setAttribute('id', 'edit');
+        button.addEventListener('click', () => { showForm(getFrmId()) });
         tdNew.appendChild(button);
         tr.appendChild(tdNew);
 

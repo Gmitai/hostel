@@ -243,4 +243,7 @@ html,body
 .btn { background:#0ff; color:#000; border:none; padding:8px 15px; border-radius:6px; cursor:pointer; font-weight:bold; }
 .btn:hover { background:#00bcd4; transform:scale(1.05);}
 
-
+#edit
+{
+    background-color: rgba(0, 0, 0, 0);
+}

@@ -44,7 +44,6 @@ app.get('/buildings/:id', (req, res) => {
 });
 
 app.get('/roomsByBuildFloorId', (req, res) => {
-    selected_menuId = 0;
     const buildId = parseInt(req.query.buildId);
     const floorId = parseInt(req.query.floorId);
     const params = [buildId, floorId, buildId, floorId];
@@ -68,12 +67,20 @@ app.get('/roomsByBuildFloorId', (req, res) => {
 });
 
 app.get('/employees', (req, res) => {
-    connection.execute("SELECT e.id, e.lastName,e.firstName, e.gender, e.birthDate, e.email, e.image, e.mobilePhone FROM employees e WHERE status = 1", (err, result) => {
+    connection.execute("SELECT e.id, Concat(e.lastName,' ', e.firstName, ' ', ifnull(e.familyName, '')) as 'Ному насаб', IF(e.gender>0, 'Мард', 'Зан') as 'Ҷинс', DATE_FORMAT(e.birthDate, '%d.%m.%Y') as 'Санаи таваллуд', e.email as 'Почтаи электронӣ', e.mobilePhone as 'Телефон' FROM employees e WHERE status = 1", (err, result) => {
             if (err) return console.log(err);
+            selected_menuId = 1;
             res.send([result, selected_menuId]);
         }
     )
 });
+app.get('/log_book', (req, res) => {
+    connection.execute("Select lb.id, Concat(e.lastName,' ', e.firstName,' ', e.familyName) as 'Комендант', CASE when regType=1 then 'Даромад' when regType=2 then 'Баромад' else 'Ҳодиса' END as 'Ҳодиса', DATE_FORMAT(lb.eventDate, '%d.%m.%y') as 'Санаи ҳодиса', DATE_FORMAT(lb.createdAt, '%d.%m.%y') as 'Санаи сабтшуда' from log_book lb JOIN employees e JOIN students s on lb.commendantId=e.id and lb.studentId=s.id", (err, result) => {
+        if (err) return console.log(err);
+        selected_menuId = 2;
+        res.send([result, selected_menuId]);
+    });
+})
 
 app.get('/cities', (req, res) => {
     connection.execute("SELECT title as 'Шаҳр', if(typeOf=1, 'Давлат', 'Шаҳр') as 'Шаҳр/Давлат/Ноҳия' from cities", (err, result) => {
@@ -94,7 +101,6 @@ app.get('/grades', (req, res) => {
     const specId = parseInt(req.query.specId);
     connection.execute("SELECT DISTINCT course as id, CONCAT('Бахши ', course) as name  FROM `groups` WHERE year=2025 AND status=1 AND specialtyId=? ORDER BY course", [specId], (err, result) => {
         if (err) return console.log(err);
-        selected_menuId = 6;
         res.send([result, selected_menuId]);
     })
 })
@@ -115,7 +121,6 @@ app.get('/specialtyByFacId', (req, res) => {
                         where f.id = '${facId}'
                         ORDER BY name`, (err, result) => {
         if (err) return console.log(err);
-        selected_menuId = 6;
         res.send([result, selected_menuId]);
     })
 });
@@ -125,7 +130,6 @@ app.get('/studentsBySpecGrade', (req, res) => {
     const grade = req.query.gradeId;
     connection.execute("Select s.id as id, CONCAT(s.lastName,' ',s.firstName,' ') as name from students s JOIN `groups` g ON s.groupId=g.id where s.specId=? and g.course=? and g.year=2025 and s.status=2 AND s.liveInHostel=0", [specId, grade], (err, result) => {
         if (err) return console.log(err);
-        selected_menuId = 6;
         res.send([result, selected_menuId]);
     })
 })
@@ -133,21 +137,22 @@ app.get('/studentsBySpecGrade', (req, res) => {
 app.get('/rooms', (req, res) => {
     connection.execute("Select r.id, b.title as 'Хобгоҳ', r.name as '№-ҳуҷра', r.numFloor as 'Ошёна', r.placeCount as 'Миқдори ҷой', (r.placeCount-COUNT(s.id)) AS Ҷойи_холӣ  from rooms r join buildings b on r.buildingId=b.id LEFT JOIN students s ON s.roomId=r.id GROUP BY r.id, r.name, b.title, r.numFloor, r.placeCount ORDER BY b.title, r.numFloor, r.name", (err, result) => {
         if (err) return console.log(err);
-        selected_menuId = 6;
+        selected_menuId = 3;
         res.send([result, selected_menuId]);
     })
 });
 app.get('/students', (req, res) => {
     connection.execute("Select s.id, Concat(s.lastName,' ',s.firstName,' ') as 'Ному насаб',IF(s.gender = 0, 'Зан', 'Мард') AS 'Ҷинс', b.title AS Бино, r.numFloor AS Ошёна, r.name as 'Ҳуҷра', s.mobilePhone as 'Рақами мобили', s.address as 'Суроға' from students s left join rooms r on s.roomId=r.Id LEFT JOIN buildings b ON b.id=r.buildingId where s.liveInHostel=1", (err, result) => {
+        selected_menuId = 4;
         if (err) return console.log(err);
-        selected_menuId = 6;
+
         res.send([result, selected_menuId]);
     })
 });
 app.get('/users', (req, res) => {
     connection.execute("Select u.id, Concat(e.lastName,' ', e.firstName,' ', e.familyName) as 'Ному насаб', u.login  as 'Логин' from users u left join employees e on u.empId=e.Id", (err, result) => {
         if (err) return console.log(err);
-        selected_menuId = 7;
+        selected_menuId = 8;
         res.send([result, selected_menuId]);
     })
 });
@@ -158,9 +163,37 @@ app.post('/registerStudent', urlencodedParser, (req, res) => {
     const roomId = req.body.roomNumber;
     connection.execute("UPDATE students SET roomId=?, liveInHostel=1 WHERE id=?", [roomId, studId], (err, result) => {
         if (err) return console.log(err);
-        selected_menuId = 6;
+
     });
 });
+
+app.post('/register', urlencodedParser, (req, res) => {
+    console.log(req.body);
+    const fullName = req.body.fullName.split(' ');
+    const birthDate=req.body.birthDate;
+    const phoneNumber=req.body.phone;
+    const email=req.body.email;
+    const address=req.body.address;
+    const lastName=fullName[0].charAt(0).toUpperCase() + fullName[0].substring(1).toLowerCase();
+    const firstName=fullName[1].charAt(0).toUpperCase() + fullName[1].substring(1).toLowerCase();
+    let familyName=null;
+    if (fullName.length>2) {
+        familyName=fullName[2].charAt(0).toUpperCase() + fullName[2].substring(1).toLowerCase();
+    }
+
+    connection.execute(`SELECT * FROM employees WHERE firstName = '${firstName}' AND lastName='${lastName}'`, function (err, result){
+        if(result.length > 0){
+            res.sendFile(__dirname + '/public/registration.html');
+        }
+        else {
+            const sql="Insert into employees (firstName, lastName, familyName, birthDate, mobilePhone, email, address) VALUES (?,?,?,?,?,?,?)";
+            connection.query(sql, [firstName, lastName, familyName, birthDate, phoneNumber, email, address], (err, result) => {
+                if (err) {console.log(err)}
+            });
+        }
+    });
+
+})
 
 
 const PORT = process.env.PORT || 3000;

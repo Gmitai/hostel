@@ -1,10 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tj">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бақайдгирии ҳодиса</title>
+    <link rel="stylesheet" href="Forms_Style.css">
 </head>
 <body>
-$END$
+<script src="getLSItem.js" type="text/javascript"></script>
+<div class="form-container">
+    <h2>Бақайдгирии ҳодиса</h2>
+
+    <form action="/registerStudent" method="post">
+
+        <div class="form-group">
+            <label for="Commendant">Комендант</label>
+            <select id="Commendant" name="Commendant" required></select>
+        </div>
+
+        <div class="form-group">
+            <label for="Reqtype">Ҳодиса</label>
+            <select id="Reqtype" name="Reqtype" required></select>
+        </div>
+
+        <div class="form-group">
+            <label for="student">Донишҷӯ</label>
+        </div>
+
+        <div>
+            <!-- Здесь может быть какой-то контент -->
+            <p>Это обычный текст, который виден пользователю.</p>
+        </div>
+
+        <div class="form-group">
+            <label for="datetime">Санаи ҳодиса</label>
+            <input id="datetime" name="datetime" required></input>
+        </div>
+
+
+        <div class="form-group">
+            <div class="button-group">
+                <button type="button" class="btn-back" onclick="window.parent.closeIframe(getFrmId())">⬅ Баромад</button>
+                <button type="submit" class="btn-add" onclick="window.parent.closeIframe(getFrmId())">➕ Сабт</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="" type="text/javascript"></script>
 </body>
 </html>

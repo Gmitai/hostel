@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let btnToggle = null;
 
     // --- создаем кнопку "Все" ---
-    if(addContentDiv){
+    /*if(addContentDiv){
         btnToggle = document.createElement("button");
         btnToggle.className = "btn";
         btnToggle.textContent = "";
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
             loadEmployees();
         });
         addContentDiv.appendChild(btnToggle);
-    }
+    }*/
 
     function updateToggleButton(){
         const activeBtn = document.querySelector('.nav button.active');
@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const thead = document.createElement("thead");
         const trHead = document.createElement("tr");
-        ["id","firstName","lastName","gender","actions"].forEach(c => { // вместо image - actions
+        ["id","firstName","lastName","gender","mobilePhone","email","actions"].forEach(c => { // вместо image - actions
             const th = document.createElement("th");
             th.textContent = c === "actions" ? "Действия" : c;
             trHead.appendChild(th);
@@ -153,11 +153,11 @@ document.addEventListener("DOMContentLoaded", () => {
         list.forEach(p => {
             const tr = document.createElement("tr");
 
-            ["id","firstName","lastName","gender","actions"].forEach(c => {
+            ["id","firstName","lastName","gender","mobilePhone","email","actions"].forEach(c => {
                 const td = document.createElement("td");
 
                 if(c === "gender") {
-                    td.textContent = p.gender === 1 ? "Мужской" : "Женский";
+                    td.textContent = p.gender === 1 ? "Мард" : "Зан";
                 } else if(c === "actions") {
                     const btnEdit = document.createElement("button");
                     btnEdit.className = "btn";
@@ -216,7 +216,5 @@ document.addEventListener("DOMContentLoaded", () => {
                 .catch(err => alert("Ошибка сети: "+err));
         }
     }
-
     window.loadEmployees = loadEmployees;
-
 });
