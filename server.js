@@ -1,6 +1,8 @@
 const express = require('express');
 const mysql = require('mysql2');
 const urlencodedParser = express.urlencoded({extended: false});
+const multer = require('multer');
+const upload = multer();
 let selected_menuId = 0;
 const app = express();
 app.use(express.static(__dirname + '/Public'));
@@ -208,7 +210,7 @@ app.post('/registerLog', urlencodedParser, (req, res) => {
     });
 });
 
-app.post('/dutyAddInfo', urlencodedParser, (req, res) => {
+app.post('/dutyAddInfo', upload.none(), (req, res) => {
     const commendantId=req.body.commendant;
     const building=req.body.building;
     const comment=req.body.comment;

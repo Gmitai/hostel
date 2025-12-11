@@ -168,6 +168,7 @@ function renderTable(key, rows) {
 
 
 // === ПЕРЕКЛЮЧАТЕЛЬ ВИДА ДЛЯ СОТРУДНИКОВ ===
+/*
 let showTable = false; // false = карточки, true = таблица
 
 const toggleBtn = document.getElementById("toggleViewBtn");
@@ -184,4 +185,4 @@ toggleBtn.addEventListener("click", () => {
     } else {
         alert("Сначала выберите раздел: Кормандон");
     }
-});
+}); */

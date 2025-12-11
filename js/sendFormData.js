@@ -6,10 +6,13 @@ document.getElementById('eventForm').addEventListener('submit', async function (
             method: 'POST',
             body: formData
         });
-
+        console.log('before alert');
         if (response.ok) {
+            window.parent.closeIframe(getFrmId());
             alert('Маьлумотҳо бо муваффақият сабт шуданд.');
+
         }
+        console.log('after alert');
     }
     catch (error) {
         alert('Хатогӣ хангомӣ сабт: ' + error.message);

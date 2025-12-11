@@ -39,26 +39,7 @@ async function getData(url) {
     return data[0]; // backend возвращает [result, selected_menuId]
 }
 
-// === АВТОКОМПЛИТ для студентов ===
-studentInput.addEventListener("input", () => {
-    const query = studentInput.value.toLowerCase();
-    studentList.innerHTML = "";
 
-    if (!query) return;
-
-    const filtered = studentsCache.filter(s => (s['Ному насаб'] || '').toLowerCase().includes(query));
-    filtered.forEach(s => {
-        const li = document.createElement("li");
-        li.textContent = s['Ному насаб'];
-        li.dataset.id = s.id;
-        li.addEventListener("click", () => {
-            studentInput.value = s['Ному насаб'];
-            studentInput.dataset.id = s.id;
-            studentList.innerHTML = "";
-        });
-        studentList.appendChild(li);
-    });
-});
 
 // Отправка формы — передаем ID студента
 /*document.getElementById("eventForm").addEventListener("submit", (e) => {
